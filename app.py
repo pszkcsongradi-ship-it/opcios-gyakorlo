@@ -113,7 +113,8 @@ def main():
 
     st.title("Opciós alapstratégiák gyakorlása")
     st.caption("Long call, short call, long put és short put gyakorlása lejáratkori eredménnyel. A feladatok során a pénz időértékével nem számolunk.")
-
+    st.caption("© Csongrádi")
+    
     tab1, tab2, tab3 = st.tabs(["Interaktív grafikon", "Gyakorló feladat", "Összefoglaló"])
 
     with tab1:
