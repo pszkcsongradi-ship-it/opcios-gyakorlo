@@ -78,7 +78,7 @@ def plot_payoff(option_type: str, k: float, premium: float, current_s: float | N
     ax.plot(s_values, profits, linewidth=2, label="Lejáratkori eredmény")
     ax.axhline(0, linewidth=1)
     ax.axvline(k, linestyle="--", linewidth=1, label="Kötési ár")
-    ax.axvline(breakeven(option_type, k, premium), linestyle=":", linewidth=1.5, label="Fedezeti pont")
+    ax.axvline(breakeven(option_type, k, premium), linestyle=":", linewidth=1.5, label="Nyereségküszöb")
 
     if current_s is not None:
         current_profit = float(option_profit(option_type, current_s, k, premium))
@@ -92,7 +92,7 @@ def plot_payoff(option_type: str, k: float, premium: float, current_s: float | N
 
     ax.set_title(OPTION_NAMES[option_type])
     ax.set_xlabel("Alaptermék árfolyama lejáratkor (S)")
-    ax.set_ylabel("Eredmény prémium után")
+    ax.set_ylabel("Opciós pozíció eredménye lejáratkor")
     ax.grid(True, alpha=0.25)
     ax.legend()
     return fig
@@ -112,13 +112,13 @@ def main():
     initialize_state()
 
     st.title("Opciós alapstratégiák gyakorlása")
-    st.caption("Long call, short call, long put és short put gyakorlása lejáratkori eredménnyel.")
-    st.caption("©Csongrádi")
-    
+    st.caption("Long call, short call, long put és short put gyakorlása lejáratkori eredménnyel. A feladatok során a pénz időértékével nem számolunk.")
+
     tab1, tab2, tab3 = st.tabs(["Interaktív grafikon", "Gyakorló feladat", "Összefoglaló"])
 
     with tab1:
         st.subheader("Állítsd be a paramétereket, és figyeld a nyereségfüggvényt!")
+        st.info("A számítások lejáratkori eredményre vonatkoznak; a pénz időértékével a feladatok során nem számolunk.")
         left, right = st.columns([1, 2])
 
         with left:
@@ -136,7 +136,7 @@ def main():
             max_profit, max_loss = max_profit_loss(option_type, strike, premium)
 
             st.metric("Lejáratkori eredmény", f"{profit:.2f}")
-            st.write(f"**Fedezeti pont:** {be:.2f}")
+            st.write(f"**Nyereségküszöb:** {be:.2f}")
             st.write(f"**Maximális nyereség:** {max_profit}")
             st.write(f"**Maximális veszteség:** {max_loss}")
             st.info(EXPLANATIONS[option_type])
@@ -151,7 +151,8 @@ def main():
         st.write(
             f"Egy befektető **{OPTION_NAMES[task.option_type]}** pozíciót nyit. "
             f"A kötési ár **K = {task.strike:.0f}**, az opciós díj **{task.premium:.0f}**, "
-            f"az alaptermék lejáratkori árfolyama **S = {task.stock_price:.0f}**."
+            f"az alaptermék lejáratkori árfolyama **S = {task.stock_price:.0f}**. "
+            f"A feladat során a pénz időértékével nem számolunk."
         )
 
         correct_profit = float(option_profit(task.option_type, task.stock_price, task.strike, task.premium))
@@ -161,7 +162,7 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             user_profit = st.number_input("Mennyi a lejáratkori eredmény?", value=0.0, step=1.0)
-            user_be = st.number_input("Mennyi a fedezeti pont?", value=0.0, step=1.0)
+            user_be = st.number_input("Mennyi a nyereségküszöb?", value=0.0, step=1.0)
         with col2:
             user_direction = st.radio(
                 "Milyen árfolyammozgás kedvez ennek a pozíciónak?",
@@ -190,7 +191,7 @@ def main():
                 st.warning(f"Részben jó megoldás: {points}/3 pont.")
 
             st.write(f"**Helyes eredmény:** {correct_profit:.2f}")
-            st.write(f"**Helyes fedezeti pont:** {correct_be:.2f}")
+            st.write(f"**Helyes nyereségküszöb:** {correct_be:.2f}")
             st.write(f"**Kedvező árfolyammozgás:** {expected_direction[task.option_type]}")
             st.write(f"**Maximális nyereség:** {correct_max_profit}")
             st.write(f"**Maximális veszteség:** {correct_max_loss}")
@@ -207,7 +208,7 @@ def main():
         st.subheader("Négy alap opciós pozíció")
         st.markdown(
             """
-| Pozíció | Mire számít? | Fedezeti pont | Maximális nyereség | Maximális veszteség |
+| Pozíció | Mire számít? | Nyereségküszöb | Maximális nyereség | Maximális veszteség |
 |---|---:|---:|---:|---:|
 | Long call | Árfolyam-emelkedés | K + prémium | korlátlan | prémium |
 | Short call | Nem emelkedik jelentősen | K + prémium | prémium | korlátlan |
@@ -217,6 +218,7 @@ def main():
         )
         st.info(
             "A táblázat lejáratkori eredményre vonatkozik, a prémium figyelembevételével. "
+            "A pénz időértékével a feladatok során nem számolunk. "
             "A short pozícióknál a prémium bevételként jelenik meg, de kötelezettségvállalással jár."
         )
 
