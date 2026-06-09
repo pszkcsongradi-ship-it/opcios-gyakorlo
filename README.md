@@ -1,4 +1,4 @@
-# Opciós alapstratégiák gyakorlása – Streamlit app
+# Opciós alapstratégiák gyakorlása
 
 Ez az oktatási célú Streamlit app a négy alap opciós pozíció gyakorlására készült:
 
@@ -6,20 +6,6 @@ Ez az oktatási célú Streamlit app a négy alap opciós pozíció gyakorlásá
 - short call
 - long put
 - short put
-
-## Futtatás helyben
-
-1. Telepítés:
-
-```bash
-pip install -r requirements.txt
-```
-
-2. App indítása:
-
-```bash
-streamlit run app.py
-```
 
 ## Funkciók
 
