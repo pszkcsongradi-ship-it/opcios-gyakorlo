@@ -30,10 +30,3 @@ streamlit run app.py
 - Pontszám követése munkameneten belül
 - Rövid összefoglaló táblázat a négy alapstratégiáról
 
-## Oktatási továbbfejlesztési ötletek
-
-- Moodle / Teams linkként megosztás
-- Hallgatói azonosító bekérése
-- Pontszám CSV-be mentése
-- Több nehézségi szint
-- Összetett stratégiák: covered call, protective put, straddle, strangle, bull/bear spread
